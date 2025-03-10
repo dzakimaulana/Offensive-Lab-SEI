@@ -1,16 +1,19 @@
-const jwt = require("jsonwebtoken");
+const { decrypt } = require("../utils/aes");
+const { verifyToken } = require("../utils/auth");
 
-const verifyToken = (req, res, next) => {
-    const token = req.cookies.token;
+const isAuth = (req, res, next) => {
+    const aesToken = req.cookies.token;
     const isAuthPage = req.path.startsWith("/login") || req.path.startsWith("/register");
 
-    if (!token) {
+    if (!aesToken) {
         return isAuthPage ? next() : res.redirect("/login");
     }
 
     try {
-        req.user = jwt.verify(token, process.env.JWT_SECRET);
-        return isAuthPage ? res.redirect("/dashboard") : next();
+        const token = decrypt(aesToken);
+        const decode = verifyToken(token);
+        req.user = decode;
+        next();
     } catch (error) {
         res.clearCookie("token");
         return res.redirect("/login");
@@ -22,4 +25,4 @@ const attachUser = (req, res, next) => {
     next();
 };
 
-module.exports = { verifyToken, attachUser };
+module.exports = { isAuth, attachUser };

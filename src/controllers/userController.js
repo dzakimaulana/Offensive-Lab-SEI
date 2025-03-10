@@ -1,4 +1,5 @@
 const db = require('../config/database');
+const { encrypt } = require('../utils/aes');
 const { generateToken } = require('../utils/auth')
 const { hashPassword, comparePassword } = require('../utils/hash');
 
@@ -6,6 +7,9 @@ const register = async (req, res) => {
     const { username, password } = req.body;
 
     try {
+        const user = await db('users').where({ username }).first();
+        if (user) return res.status(404).json({ error: 'User already used' });
+
         const hashedPassword = await hashPassword(password);
         await db('users').insert({ username, password: hashedPassword });
 
@@ -26,10 +30,26 @@ const login = async (req, res) => {
         if (!isMatch) return res.status(401).json({ error: 'Invalid credentials' });
 
         const token = generateToken(user);
-        res.json({ message: 'Login successful', token: token });
+        const aesToken = encrypt(token);
+
+        res.cookie("token", aesToken, {
+            httpOnly: true,
+            secure: true,
+            maxAge: 60 * 60 * 1000,
+        });
+        res.json({ message: 'Login successful', token: aesToken });
     } catch (error) {
         res.status(500).json({ error: 'Failed to login' });
     }
 };
 
-module.exports = { register, login };
+const katalog = async (req, res) => {
+
+    try {
+        res.status(200).json({ message: 'Get Data' });
+    } catch (error) {
+        res.status(500).json({ error: 'Server Error' });
+    }
+}
+
+module.exports = { register, login, katalog };
