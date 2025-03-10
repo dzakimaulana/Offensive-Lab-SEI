@@ -1,39 +1,46 @@
-const db = require("../config/database");
-const { generateToken } = require("../utils/auth");
-const { hashPassword, comparePassword } = require("../utils/hash");
+const db = require('../config/database');
+const { encrypt } = require('../utils/aes');
+const { generateToken } = require('../utils/auth')
+const { hashPassword, comparePassword } = require('../utils/hash');
 
 const register = async (req, res) => {
-  const { username, password } = req.body;
+    const { username, password } = req.body;
 
-  try {
-    const existingUser = await db("users").where({ username }).first();
-    if (existingUser)
-      return res.status(400).json({ error: "Username already exists" });
+    try {
+        const user = await db('users').where({ username }).first();
+        if (user) return res.status(404).json({ error: 'User already used' });
 
-    const hashedPassword = await hashPassword(password);
-    await db("users").insert({ username, password: hashedPassword });
+        const hashedPassword = await hashPassword(password);
+        await db('users').insert({ username, password: hashedPassword });
 
-    res.status(201).json({ message: "User registered successfully" });
-  } catch (error) {
-    res.status(500).json({ error: "Failed to register user" });
-  }
+        res.status(201).json({ message: 'User registered successfully' });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to register user' });
+    }
 };
 
 const login = async (req, res) => {
-  const { username, password } = req.body;
+    const { username, password } = req.body;
 
-  try {
-    const user = await db("users").where({ username }).first();
-    if (!user) return res.status(404).json({ error: "User not found" });
+    try {
+        const user = await db('users').where({ username }).first();
+        if (!user) return res.status(404).json({ error: 'User not found' });
 
-    const isMatch = await comparePassword(password, user.password);
-    if (!isMatch) return res.status(401).json({ error: "Invalid credentials" });
+        const isMatch = await comparePassword(password, user.password);
+        if (!isMatch) return res.status(401).json({ error: 'Invalid credentials' });
 
-    const token = generateToken(user, { expiresIn: "1h" });
-    res.json({ message: "Login successful", token });
-  } catch (error) {
-    res.status(500).json({ error: "Failed to login" });
-  }
+        const token = generateToken(user);
+        const aesToken = encrypt(token);
+
+        res.cookie("token", aesToken, {
+            httpOnly: true,
+            secure: true,
+            maxAge: 60 * 60 * 1000,
+        });
+        res.json({ message: 'Login successful', token: aesToken });
+    } catch (error) {
+        res.status(500).json({ error: 'Failed to login' });
+    }
 };
 
 const addWishlist = async (req, res) => {
@@ -127,4 +134,13 @@ const rating = async (req, res) => {
   }
 };
 
-module.exports = { register, login, addWishlist, viewWishlist, rating };
+const katalog = async (req, res) => {
+
+    try {
+        res.status(200).json({ message: 'Get Data' });
+    } catch (error) {
+        res.status(500).json({ error: 'Server Error' });
+    }
+};
+
+module.exports = { register, login, katalog };
