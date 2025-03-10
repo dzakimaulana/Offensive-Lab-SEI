@@ -1,21 +1,18 @@
 const express = require('express');
-const { register, login, katalog } = require('../controllers/userController');
+const { getAllBooks, getBookById, rateBook, 
+    addToFavorites, getFavorites, removeFromFavorites } = require('../controllers/userController');
 const { isAuth } = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 
-router.post('/register', register);
-router.post('/login', login);
-router.get('/katalog', isAuth, katalog);
-router.get('/', async (req, res) => {
-    try {
-        if (res.headersSent) return;
-        return res.status(200).json({ message: 'Hello' });
-    } catch (error) {
-        if (!res.headersSent) {
-            res.status(500).json({ error: 'Internal Server Error' });
-        }
-    }
-});
+router.use(isAuth);
+
+router.get('/books', getAllBooks);
+router.get('/books/:id', getBookById);
+router.post('/books/:id/rate', rateBook);
+
+router.post('/favorites/:id', addToFavorites);
+router.get('/favorites', getFavorites);
+router.delete('/favorites/:id', removeFromFavorites);
 
 module.exports = router;

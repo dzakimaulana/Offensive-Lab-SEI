@@ -38,7 +38,9 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Routes
+const authRoutes = require("./src/routes/authRoutes");
 const userRoutes = require("./src/routes/userRoutes");
+app.use("/", authRoutes);
 app.use("/", userRoutes);
 
 // Run migrations and seeds on startup
