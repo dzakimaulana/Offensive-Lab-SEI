@@ -1,0 +1,23 @@
+<%- include('../partials/header') %>
+    <header>
+        <h1>Book Catalog</h1>
+        <input type="text" id="search" placeholder="Search books..." oninput="filterBooks()">
+    </header>
+
+    <!-- Book List -->
+    <main>
+        <ul id="book-list">
+            <% books.forEach(book => { %>
+                <li class="book-item">
+                    <img src="<%= book.image || '/images/default-book-cover.jpg' %>" alt="<%= book.title || 'Unknown Title' %> Cover" class="book-cover">
+                    <div class="book-details">
+                        <strong><%= book.title || 'Unknown Title' %></strong>
+                        <p><em>by <%= book.author || 'Unknown Author' %></em></p>
+                        <p><small>Published in <%= book.year || 'Unknown Year' %></small></p>
+                    </div>
+                </li>
+            <% }) %>
+        </ul>
+    </main>
+
+    <%- include('../partials/footer') %>
