@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Favorit Buku</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="p-6 bg-gray-100">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-3xl font-bold">Buku Favorit Kamu</h2>
+      <a
+        href="/admin/dashboard"
+        class="bg-blue-500 text-white px-4 py-2 rounded"
+        >⬅ Kembali ke Dashboard</a
+      >
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <% if (favorites.length > 0) { %> <% favorites.forEach(book => { %>
+      <div class="p-4 border rounded-lg shadow-md bg-white">
+        <h4 class="text-lg font-semibold"><%= book.title %></h4>
+        <p class="text-gray-600">Penulis: <%= book.author %></p>
+        <p class="text-gray-600">Tahun: <%= book.year %></p>
+        <form
+          action="/favorites/remove/<%= book.favorite_id %>"
+          method="POST"
+          onsubmit="return confirm('Hapus dari favorit?')"
+        >
+          <button class="mt-2 bg-red-500 text-white px-4 py-2 rounded">
+            Hapus dari Favorit
+          </button>
+        </form>
+      </div>
+      <% }); %> <% } else { %>
+      <p class="text-center text-gray-600">Belum ada buku favorit.</p>
+      <% } %>
+    </div>
+  </body>
+</html>
