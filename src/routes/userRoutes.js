@@ -1,7 +1,16 @@
+<<<<<<< HEAD
 const express = require("express");
+=======
+const express = require('express');
+const { getAllBooks, getBookById, rateBook, 
+    addToFavorites, getFavorites, removeFromFavorites } = require('../controllers/userController');
+const { isAuth } = require('../middlewares/authMiddleware');
+
+>>>>>>> 0366d647c52ea06e25ae7d501dabb20f6a686036
 const router = express.Router();
 const db = require("../config/database");
 
+<<<<<<< HEAD
 // Middleware untuk memastikan user sudah login
 function isAuthenticated(req, res, next) {
   if (req.session.user) {
@@ -9,6 +18,17 @@ function isAuthenticated(req, res, next) {
   }
   res.redirect("/");
 }
+=======
+router.use(isAuth);
+
+router.get('/books', getAllBooks);
+router.get('/books/:id', getBookById);
+router.post('/books/:id/rate', rateBook);
+
+router.post('/favorites/:id', addToFavorites);
+router.get('/favorites', getFavorites);
+router.delete('/favorites/:id', removeFromFavorites);
+>>>>>>> 0366d647c52ea06e25ae7d501dabb20f6a686036
 
 // 📖 Lihat Daftar Buku
 router.get("/books", isAuthenticated, (req, res) => {

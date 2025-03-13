@@ -1,25 +1,30 @@
-const jwt = require("jsonwebtoken");
+const { decrypt } = require("../utils/aes");
+const { verifyToken } = require("../utils/auth");
 
-const verifyToken = (req, res, next) => {
-    const token = req.cookies.token;
-    const isAuthPage = req.path.startsWith("/login") || req.path.startsWith("/register");
+const isAuth = (req, res, next) => {
+    const aesToken = req.cookies?.token;
+    const isAuthPage = ["/login", "/register"].some(path => req.path.startsWith(path));
 
-    if (!token) {
+    if (!aesToken) {
         return isAuthPage ? next() : res.redirect("/login");
     }
 
     try {
-        req.user = jwt.verify(token, process.env.JWT_SECRET);
-        return isAuthPage ? res.redirect("/dashboard") : next();
+        const token = decrypt(aesToken);
+        const decoded = verifyToken(token);
+        req.user = decoded;
+        next();
     } catch (error) {
+        console.error("Authentication Error:", error.message);
         res.clearCookie("token");
         return res.redirect("/login");
     }
 };
+
 
 const attachUser = (req, res, next) => {
     res.locals.user = req.user || null;
     next();
 };
 
-module.exports = { verifyToken, attachUser };
+module.exports = { isAuth, attachUser };
