@@ -4,33 +4,46 @@ const getAllBooks = async (req, res) => {
     const limit = 10;
     const page = Math.max(1, parseInt(req.query.page) || 1);
     const offset = (page - 1) * limit;
+    const search = req.query.search?.trim() || "";
 
     try {
-        const books = await db("books")
-            .select("books.id", "books.title", "books.cover_image")
-            .leftJoin("ratings", "books.id", "ratings.id_book")
-            .groupBy("books.id", "books.title", "books.cover_image") // Include cover_image in GROUP BY
+        const booksQuery = db("books")
             .select(
-                db.raw("COALESCE(AVG(ratings.rating), 0) AS average_rating"),
-                db.raw("COUNT(ratings.rating) AS total_ratings")
+                "books.id",
+                "books.title",
+                "books.cover_image",
+                "books.author",
+                "books.year"
             )
-            .limit(limit)
-            .offset(offset);
+            .leftJoin("ratings", "books.id", "ratings.id_book")
+            .groupBy("books.id")
+            .select(
+                db.raw("ROUND(COALESCE(AVG(ratings.rating), 0), 2) AS average_rating"),
+                db.raw("COUNT(ratings.rating) AS total_ratings")
+            );
 
-        if (books.length === 0) { // Corrected from favorite.length to books.length
-            return res.status(200).json({
-                success: true,
-                message: "No books available",
-                books: [],
+        if (search) {
+            booksQuery.where((builder) => {
+                builder
+                    .where("books.title", "like", `%${search}%`)
+                    .orWhere("books.author", "like", `%${search}%`);
             });
         }
 
-        res.status(200).json({ success: true, books });
+        const books = await booksQuery.limit(limit).offset(offset);
+
+        // Check if request is AJAX
+        if (req.xhr) {
+            return res.json({ success: true, books, search, page });
+        }
+
+        res.render("user/catalog", { books, search, page, userToken: req.user ? true : false });
     } catch (error) {
         console.error("Error retrieving books:", error);
-        res.status(500).json({ success: false, error: "Failed to retrieve all books" });
+        return res.status(500).json({ success: false, error: "Failed to retrieve books" });
     }
 };
+
 
 const getBookById = async (req, res) => {
     const { id } = req.params;
@@ -49,7 +62,7 @@ const getBookById = async (req, res) => {
                 db.raw("COUNT(ratings.id) as rating_count")
             )
             .groupBy("books.id", "books.title", "books.author", "books.description", "books.cover_image")
-            .first(); // Ensures we return a single object, not an array
+            .first();
         
         if (!book) {
             return res.status(404).json({

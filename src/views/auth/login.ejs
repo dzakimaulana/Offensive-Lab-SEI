@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Book Catalog</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <!-- Include Header Partial -->
+    <%- include('../partials/header') %>
+
+    <main>
+        <section class="login">
+            <div class="login__container">
+                <h2 class="login__title">Login to Your Account</h2>
+
+                <!-- Error Message -->
+                <% if (error) { %>
+                    <p class="login__error"><%= error %></p>
+                <% } %>
+
+                <form action="/login" method="post" class="login__form">
+                    <div class="login__form-group">
+                        <label for="username" class="login__label">Username</label>
+                        <input type="text" id="username" name="username" class="login__input" required>
+                    </div>
+                    <div class="login__form-group">
+                        <label for="password" class="login__label">Password</label>
+                        <input type="password" id="password" name="password" class="login__input" required>
+                    </div>
+                    <button type="submit" class="login__button">Login</button>
+                </form>
+
+                <p class="login__register">
+                    Don't have an account? <a href="/register" class="login__link">Register here</a>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <!-- Include Footer Partial -->
+    <%- include('../partials/footer') %>
+</body>
+</html>

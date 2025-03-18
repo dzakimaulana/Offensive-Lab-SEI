@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 // Set EJS as the view engine
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "src", "views"));
+app.use(express.urlencoded({ extended: true }));
 
 // Middleware to log all requests
 app.use((req, res, next) => {
@@ -38,10 +39,15 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Routes
+const mainRoutes = require("./src/routes/mainRoutes");
 const authRoutes = require("./src/routes/authRoutes");
 const userRoutes = require("./src/routes/userRoutes");
+const adminRoutes = require("./src/routes/adminRoutes");
+
+app.use("/", mainRoutes);
 app.use("/", authRoutes);
 app.use("/", userRoutes);
+app.use("/admin", adminRoutes); 
 
 // Run migrations and seeds on startup
 const setupDatabase = async () => {

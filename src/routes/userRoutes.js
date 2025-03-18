@@ -1,7 +1,7 @@
 const express = require('express');
 const { getAllBooks, getBookById, rateBook, 
     addToFavorites, getFavorites, removeFromFavorites } = require('../controllers/userController');
-const { isAuth } = require('../middlewares/authMiddleware');
+const { isAuth, isAdmin } = require('../middlewares/authMiddleware');
 
 const router = express.Router();
 

@@ -1,54 +1,62 @@
 const db = require('../config/database');
-const { encrypt } = require('../utils/aes');
 const { generateToken } = require('../utils/auth')
 const { hashPassword, comparePassword } = require('../utils/hash');
 
 const register = async (req, res) => {
+    if (req.method === "GET") {
+        return res.render("auth/register", { error: null,
+            userToken: req.user ? true : false }); // Render EJS login page
+    }
+
     const { username, password } = req.body;
 
     try {
         const user = await db('users').where({ username }).first();
-        if (user) return res.status(404).json({ error: 'User already used' });
+        if (user) return res.status(404).render("auth/register", { error: 'User already used' });
 
         const hashedPassword = await hashPassword(password);
         await db('users').insert({ username: username, password: hashedPassword, role: 'user' });
 
-        res.status(201).json({ message: 'User registered successfully' });
+        res.status(201).redirect("/login");
     } catch (error) {
-        res.status(500).json({ error: 'Failed to register user' });
+        res.status(500).render("auth/register", { error: "Internal Server Error" });;
     }
 };
 
 const login = async (req, res) => {
+    if (req.method === "GET") {
+        return res.render("auth/login", { error: null,
+            userToken: req.user ? true : false }); // Render EJS login page
+    }
     const { username, password } = req.body;
 
     try {
         const user = await db('users').where({ username }).first();
-        if (!user) return res.status(404).json({ error: 'User not found' });
+        if (!user) return res.status(404).render("auth/login", { error: 'Invalid Credentials', userToken: req.user ? true : false });
 
         const isMatch = await comparePassword(password, user.password);
-        if (!isMatch) return res.status(401).json({ error: 'Invalid credentials' });
+        if (!isMatch) return res.status(401).render("auth/login", { error: 'Invalid Credentials', userToken: req.user ? true : false });
 
         const token = generateToken(user);
-        const aesToken = encrypt(token);
 
-        res.cookie("token", aesToken, {
+        res.cookie("token", token, {
             httpOnly: true,
-            secure: true,
+            secure: false,
+            sameSite: "Lax",
             maxAge: 60 * 60 * 1000,
         });
-        res.json({ message: 'Login successful', token: aesToken });
+        return res.status(200).redirect("/books");
     } catch (error) {
-        res.status(500).json({ error: 'Failed to login' });
+        return res.status(500).render("auth/login", { error: 'Internal Server Error' });
     }
 };
 
 const logout = async (req, res) => {
     try {
         res.clearCookie("token");
-        return res.status(200).json({ success: true, message: "Logout successful" });
+        return res.status(200).redirect("/");
     } catch (error) {
-        return res.status(500).json({ success: false, error: "Logout failed" });
+        return res.status(500).render("/", { error: "Internal Server Error" });
     }
 };
 

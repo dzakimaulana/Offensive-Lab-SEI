@@ -1,23 +1,50 @@
-<%- include('../partials/header') %>
-    <header>
-        <h1>Book Catalog</h1>
-        <input type="text" id="search" placeholder="Search books..." oninput="filterBooks()">
-    </header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Catalog</title>
+    <link rel="stylesheet" href="/css/styles.css"> <!-- Use the same styles.css for consistency -->
+    <link rel="stylesheet" href="/css/catalog.css"> <!-- Additional styles for the catalog page -->
+</head>
+<body>
+    <!-- Include Header Partial -->
+    <%- include('../partials/header') %>
 
-    <!-- Book List -->
-    <main>
-        <ul id="book-list">
+    <main class="catalog-container">
+        <!-- Search Box -->
+        <div class="search-box">
+            <input 
+                type="text" 
+                id="search" 
+                placeholder="Search books..." 
+                value="<%= search %>"
+                class="search-input"
+            >
+        </div>
+
+        <!-- Book List -->
+        <ul id="book-list" class="book-list">
             <% books.forEach(book => { %>
                 <li class="book-item">
-                    <img src="<%= book.image || '/images/default-book-cover.jpg' %>" alt="<%= book.title || 'Unknown Title' %> Cover" class="book-cover">
+                    <img src="<%= book.cover_image || '/images/default-book-cover.jpg' %>" 
+                        alt="<%= book.title || 'Unknown Title' %> Cover" 
+                        class="book-cover">
                     <div class="book-details">
-                        <strong><%= book.title || 'Unknown Title' %></strong>
-                        <p><em>by <%= book.author || 'Unknown Author' %></em></p>
-                        <p><small>Published in <%= book.year || 'Unknown Year' %></small></p>
+                        <strong class="book-title"><%= book.title || 'Unknown Title' %></strong>
+                        <p class="book-author"><em>by <%= book.author || 'Unknown Author' %></em></p>
+                        <p class="book-year"><small>Published in <%= book.year || 'Unknown Year' %></small></p>
+                        <p class="book-rating">⭐ <%= book.average_rating || '0.0' %> ( <%= book.total_ratings || '0' %> ratings )</p>
                     </div>
                 </li>
-            <% }) %>
+            <% }); %>
         </ul>
     </main>
 
+    <!-- Include Footer Partial -->
     <%- include('../partials/footer') %>
+
+    <!-- JavaScript File -->
+    <script src="/js/catalog.js"></script>
+</body>
+</html>

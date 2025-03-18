@@ -11,7 +11,7 @@ module.exports = {
       port: 3306,
       user: "root",
       password: "root",
-      database: "sei",
+      database: "books_catalog",
   },
   migrations: {
       directory: path.join(__dirname, "../migrations"),

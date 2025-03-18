@@ -1,27 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Catalog</title>
-    <link rel="stylesheet" href="/css/styles.css">
-</head>
-<body>
-    <header >
-        <div class="logo">
-            <img src="/images/logo.png" alt="Book Catalog Logo">
-            <h1>Book Catalog</h1>
-        </div>
-        <nav>
-            <ul id="header-menu">
-                <li><a href="/">Home</a></li>
-                <li><a href="/catalog">Catalog</a></li>
-                <li><a href="/about">About Us</a></li>
-                <li><a href="/contact">Contact</a></li>
-                <li><a href="/login" class="login-button">Login</a></li>
-            </ul>
-        </nav>
-    </header>
-</body>
-</html>
-<body>
+<header class="header">
+    <div class="header__logo">
+        <img src="/images/logo.png" alt="Book Catalog Logo" class="header__logo-img">
+        <h1 class="header__title">Book Catalog</h1>
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <button id="menu-toggle" class="header__menu-button" aria-label="Toggle Navigation">
+        ☰
+    </button>
+
+    <!-- Navigation -->
+    <nav class="header__nav" aria-label="Main Navigation">
+        <ul class="header__menu">
+            <li><a href="/">Home</a></li>
+            <li><a href="/about">About Us</a></li>
+            <li><a href="/contact">Contact</a></li>
+            <% if (userToken) { %> <!-- If the user has a valid token -->
+                <form action="/logout" method="POST" style="display: inline;">
+                    <button type="submit" class="header__logout-button">Logout</button>
+                </form>
+            <% } else { %>
+                <li><a href="/login" class="header__login-button">Login</a></li>
+            <% } %>
+        </ul>
+    </nav>
+</header>

@@ -1,33 +1,58 @@
-<%- include('../partials/header') %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Book Catalog</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+    <%- include('../partials/header') %>
 
-<h1>Admin Dashboard</h1>
-<a href="/admin/add-book" class="add-button">Add New Book</a>
+    <main class="dashboard-container">
+        <h1>Admin Dashboard</h1>
+        <a href="/admin/books/add" class="add-button">Add New Book</a>
 
-<h2>Book List</h2>
-<table class="book-table">
-    <thead>
-        <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Year</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        <% books.forEach(book => { %>
-            <tr>
-                <td><%= book.title %></td>
-                <td><%= book.author %></td>
-                <td><%= book.year %></td>
-                <td>
-                    <a href="/admin/edit-book/<%= book.id %>" class="edit-button">Edit</a>
-                    <form action="/admin/delete-book/<%= book.id %>" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete this book?');">
-                        <button type="submit" class="delete-button">Delete</button>
-                    </form>
-                </td>
-            </tr>
-        <% }) %>
-    </tbody>
-</table>
+        <h2>Book List</h2>
 
-<%- include('../partials/footer') %>
+        <% if (books && books.length > 0) { %>
+            <table class="book-table">
+                <thead>
+                    <tr>
+                        <th>Cover</th>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Year</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% books.forEach(book => { %>
+                        <tr>
+                            <td>
+                                <img src="<%= book.cover_image || '/images/default-book-cover.jpg' %>" 
+                                    alt="<%= book.title %> Cover" 
+                                    class="book-cover">
+                            </td>
+                            <td><%= book.title %></td>
+                            <td><%= book.author %></td>
+                            <td><%= book.year %></td>
+                            <td class="actions">
+                                <a href="/admin/books/<%= book.id %>/edit" class="edit-button">Edit</a>
+                                <form action="/admin/books/<%= book.id %>/delete" method="POST" class="delete-form">
+                                    <button type="submit" class="delete-button">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p class="no-books">No books available.</p>
+        <% } %>
+    </main>
+
+    <%- include('../partials/footer') %>
+</body>
+</html>

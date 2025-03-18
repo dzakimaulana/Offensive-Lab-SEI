@@ -7,74 +7,39 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <!-- Header -->
-    <header >
-        <div class="logo">
-            <img src="/images/logo.png" alt="Book Catalog Logo">
-            <h1>Book Catalog</h1>
-        </div>
-        <nav>
-            <ul id="header-menu">
-                <li><a href="/">Home</a></li>
-                <li><a href="/catalog">Catalog</a></li>
-                <li><a href="/about">About Us</a></li>
-                <li><a href="/contact">Contact</a></li>
-                <li><a href="/login" class="login-button">Login</a></li>
-            </ul>
-        </nav>
-    </header>
+    <!-- Include Header Partial -->
+    <%- include('partials/header') %>
 
-    <!-- Main Content -->
-    <main id="welcome-section">
+    <main>
+        <!-- Welcome Section -->
         <section class="welcome-section">
             <h2>Welcome to the Book Catalog</h2>
             <p>Explore our vast collection of books from various genres.</p>
-            <a href="/catalog" class="cta-button">Browse Catalog</a>
-
-    <!-- Testimoni Section -->
-        <section id="testimonials" class="testimonials">
-            <h2>What Our Readers Say</h2>
-            <div class="testimonial-container">
-                <div class="testimonial">
-                    <p>"This book catalog has an amazing collection! I found rare books I couldn't find anywhere else."</p>
-                    <h4>- Riswan Hermawan -</h4>
-                </div>
-                <div class="testimonial">
-                    <p>"A fantastic platform for book lovers. The interface is easy to navigate, and the recommendations are great!"</p>
-                    <h4>- Dzaki Maulana -</h4>
-                </div>
-                <div class="testimonial">
-                    <p>"I love how organized everything is. The categories help me find exactly what I need in seconds!"</p>
-                    <h4>- Arrizal Rizki -</h4>
-                </div>
-            </div>
+            <a href="/books" class="cta-button">Explore Catalog</a>
         </section>
 
-    <!-- Footer -->
-    <footer id="footer-section">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>About Us</h3>
-                <p>We are dedicated to providing the best book collection for our readers.</p>
+        <!-- Testimonial Section -->
+        <section class="testimonials">
+            <h2>What Our Readers Say</h2>
+            <div class="testimonial-container">
+                <% let testimonials = [
+                    { text: "This book catalog has an amazing collection! I found rare books I couldn't find anywhere else.", author: "Riswan Hermawan" },
+                    { text: "A fantastic platform for book lovers. The interface is easy to navigate, and the recommendations are great!", author: "Dzaki Maulana" },
+                    { text: "I love how organized everything is. The categories help me find exactly what I need in seconds!", author: "Arrizal Rizki" },
+                    { text: "The best book catalog I've ever used! The UI is smooth, and I always discover new books to read!", author: "Heaven Aulianisa" }
+                ]; %>
+
+                <% testimonials.forEach(({ text, author }) => { %>
+                    <div class="testimonial">
+                        <p>"<%= text %>"</p>
+                        <h4>- <%= author %> -</h4>
+                    </div>
+                <% }); %>
             </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/catalog">Catalog</a></li>
-                    <li><a href="/about">About Us</a></li>
-                    <li><a href="/contact">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Contact Us</h3>
-                <p>Email: info@bookcatalog.com</p>
-                <p>Phone: +123 456 7890</p>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <p>&copy; 2023 Book Catalog. All rights reserved.</p>
-        </div>
-    </footer>
+        </section>
+    </main>
+
+    <!-- Include Footer Partial -->
+    <%- include('partials/footer') %>
 </body>
 </html>

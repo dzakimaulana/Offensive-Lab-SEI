@@ -1,19 +1,22 @@
-const { decrypt } = require("../utils/aes");
 const { verifyToken } = require("../utils/auth");
 
 const isAuth = (req, res, next) => {
-    const aesToken = req.cookies?.token;
-    const isAuthPage = ["/login", "/register"].some(path => req.path.startsWith(path));
+    const token = req.cookies?.token;
+    const isAuthPage = ["/login", "/register"].includes(req.path);
 
-    if (!aesToken) {
-        return isAuthPage ? next() : res.redirect("/login");
+    if (!token) {
+        return isAuthPage ? next() : res.redirect("/login"); // No token → Allow auth pages, otherwise redirect to login
     }
 
     try {
-        const token = decrypt(aesToken);
-        const decoded = verifyToken(token);
-        req.user = decoded;
-        next();
+        const data = verifyToken(token);
+        req.user = data;
+
+        if (isAuthPage) {
+            return res.redirect("/books"); // Prevent logged-in users from accessing auth pages
+        }
+
+        next(); // Proceed to requested route
     } catch (error) {
         console.error("Authentication Error:", error.message);
         res.clearCookie("token");
@@ -21,10 +24,20 @@ const isAuth = (req, res, next) => {
     }
 };
 
+const isAdmin = (req, res, next) => {
+    if (!req.user || req.user.role !== "admin") {
+        // Redirect non-admin users trying to access admin routes
+        return res.redirect("/books");
+    }
+
+    next(); // Proceed for admin users
+};
+
+
 
 const attachUser = (req, res, next) => {
     res.locals.user = req.user || null;
     next();
 };
 
-module.exports = { isAuth, attachUser };
+module.exports = { isAuth, isAdmin, attachUser };
