@@ -5,7 +5,7 @@ const isAuth = (req, res, next) => {
     const isAuthPage = ["/login", "/register"].includes(req.path);
 
     if (!token) {
-        return isAuthPage ? next() : res.redirect("/login"); // No token → Allow auth pages, otherwise redirect to login
+        return isAuthPage ? next() : res.redirect("/login");
     }
 
     try {
@@ -13,10 +13,10 @@ const isAuth = (req, res, next) => {
         req.user = data;
 
         if (isAuthPage) {
-            return res.redirect("/books"); // Prevent logged-in users from accessing auth pages
+            return res.redirect("/user/books");
         }
 
-        next(); // Proceed to requested route
+        next();
     } catch (error) {
         console.error("Authentication Error:", error.message);
         res.clearCookie("token");
@@ -26,11 +26,10 @@ const isAuth = (req, res, next) => {
 
 const isAdmin = (req, res, next) => {
     if (!req.user || req.user.role !== "admin") {
-        // Redirect non-admin users trying to access admin routes
-        return res.redirect("/books");
+        return res.redirect("/user/books");
     }
 
-    next(); // Proceed for admin users
+    next();
 };
 
 

@@ -1,54 +1,37 @@
-// adminController.js
 const db = require('../config/database');
+const { exec } = require("child_process");
+const fs = require("fs");
+const path = require("path");
 
-const dashboardAdmin = async (req, res) => {
-    try {
-        const books = await db("books")
-            .select("id", "title", "author", "year", "cover_image")
-            .orderBy("year", "desc");
-
-        // Check if request is AJAX
-        if (req.xhr) {
-            return res.json({ success: true, books });
-        }
-
-        res.render("admin/dashboard", { books, userToken: req.user ? true : false });
-    } catch (error) {
-        console.error("Dashboard Error:", error.message);
-        return res.status(500).json({ success: false, error: "Failed to load admin dashboard" });
-    }
-};
-
-
-// Get all users
-const getAllUsers = async (req, res) => {
-    try {
-        const users = await db('users').select('id', 'username', 'role');
-        res.status(200).json(users);
-    } catch (error) {
-        console.error('Error fetching users:', error);
-        res.status(500).json({ error: 'Failed to fetch users' });
-    }
-};
-
-// Add a new book
-const addBook = async (req, res) => {
-    // Handle GET request (render the add-book form)
+const dashboardAdmin = async (req, res, next) => {
     if (req.method === "GET") {
-        return res.render("admin/addBook", {
-            error: null,
-            userToken: req.user ? true : false, // Pass user authentication status
-        });
+        try {
+            const books = await db("books")
+                .select("id", "title", "author", "year", "cover_image")
+                .orderBy("year", "desc");
+    
+            if (req.xhr) {
+                return res.json({ success: true, books });
+            }
+    
+            return res.render("admin/dashboard", { books, username: req.user.username, mysqlStatus: null });
+        } catch (error) {
+            return next(error);
+        }
+    }
+};
+
+const addBook = async (req, res, next) => {
+    if (req.method === "GET") {
+        return res.render("admin/addBook", { error: null, username: req.user.username });
     }
 
-    // Handle POST request (process the form submission)
     if (req.method === "POST") {
         const { title, author, description, year } = req.body;
         const cover_image = req.file ? "/images/" + req.file.filename : null;
 
         console.log(title, author, description, year, cover_image);
 
-        // Validate required fields
         if (!title || !author || !year || !cover_image) {
             return res.status(400).render("admin/addBook", {
                 error: "Title, author, year, and cover image are required",
@@ -57,57 +40,37 @@ const addBook = async (req, res) => {
         }
 
         try {
-            // Insert the new book into the database
             await db("books").insert({
                 title,
                 author,
                 year,
-                description: description || null, // Set description to null if not provided
-                cover_image, // Store the uploaded file name
+                description: description || null,
+                cover_image,
             });
 
-            // Redirect to the admin dashboard with a success message
             return res.status(201).redirect("/admin");
         } catch (error) {
-            console.error("Error adding book:", error);
-
-            // Handle specific database errors
             if (error.code === "ER_DUP_ENTRY") {
-                return res.status(409).render("admin/addBook", {
-                    error: "A book with the same title and author already exists",
-                    userToken: req.user ? true : false,
-                });
+                const duplicateError = new Error("A book with the same title and author already exists");
+                duplicateError.status = 409;
+                return next(duplicateError);
             }
-
-            // Generic error response
-            return res.status(500).render("admin/addBook", {
-                error: "Failed to add book",
-                userToken: req.user ? true : false,
-            });
+            return next(error);
         }
     }
-
-    // Handle unsupported HTTP methods
-    return res.status(405).render("error", { error: "Method not allowed" });
 };
 
 
-const editBook = async (req, res) => {
+const editBook = async (req, res, next) => {
     if (req.method === "GET") {
         try {
             const book = await db('books').where({ id: req.params.id }).first();
             if (!book) {
-                return res.status(404).render("admin/editBook", { error: "Book not found", 
-                    userToken: req.user ? true : false,
-                    book: null });
+                return res.status(400).render("admin/editBook", { error: "Book not found", book: null, username: req.user.username });
             }
-            res.render('admin/editBook', { book, 
-                userToken: req.user ? true : false, 
-                error: null });
+            return res.render('admin/editBook', { book, error: null, username: req.user.username });
         } catch (error) {
-            console.error("Error fetching book:", error);
-            res.status(500).render("admin/editBook", { userToken: req.user ? true : false, 
-                error: "Failed to load book", book: null });
+            return next(error);
         }
     }
 
@@ -118,17 +81,11 @@ const editBook = async (req, res) => {
         try {
             let cover_image = null;
 
-            // If a new file is uploaded, update the cover_image field
             if (req.file) {
                 cover_image = req.file.filename;
             }
 
-            const updatedData = {
-                title,
-                author,
-                year,
-                description
-            };
+            const updatedData = { title, author, year, description };
 
             if (cover_image) {
                 updatedData.cover_image = cover_image;
@@ -139,35 +96,73 @@ const editBook = async (req, res) => {
                 return res.status(404).render("admin/editBook", { error: "Book not found", book: null });
             }
 
-            res.redirect("/admin");
+            return res.redirect("/admin");
         } catch (error) {
-            console.error("Error updating book:", error);
-            res.status(500).render("admin/editBook", { error: "Failed to update book", book: null });
+            return next(error);
         }
     }
 };
 
-// Delete a book
-const deleteBook = async (req, res) => {
-    const { id } = req.params;
+const deleteBook = async (req, res, next) => {
+    const id = parseInt(req.params.id, 10);
 
-    // Ensure the ID is valid
     if (!id || isNaN(id)) {
         return res.status(400).redirect("/admin");
     }
 
     try {
-        const deletedRows = await db("books").where({ id }).del();
+        const book = await db("books").where({ id }).first();
 
-        if (deletedRows === 0) {
-            return res.status(404).redirect("/admin");
+        if (!book) {
+            return res.status(400).render("admin/dashboard", { 
+                error: "Book not found", 
+                username: req.user.username 
+            });
         }
 
-        res.status(200).redirect("/admin");
+        if (book.cover_image) {
+            const imagePath = path.join(__dirname, "..", "public", book.cover_image);
+            if (fs.existsSync(imagePath)) {
+                fs.unlinkSync(imagePath); // Delete the file
+            }
+        }
+
+        await db("books").where({ id }).del();
+
+        return res.redirect("/admin");
     } catch (error) {
-        console.error("Error deleting book:", error);
-        res.status(500).redirect("/admin");
+        return next(error);
     }
 };
 
-module.exports = { dashboardAdmin, getAllUsers, addBook, editBook, deleteBook };
+function recursiveMerge(target, source) {
+    for (let key in source) {
+        if (typeof source[key] === "object" && source[key] !== null) {
+            if (!target[key]) target[key] = {};
+            recursiveMerge(target[key], source[key]);
+        } else {
+            target[key] = source[key];
+        }
+    }
+}
+
+const checkMySQL = async (req, res, next) => {
+    let config = { command: "docker inspect -f '{{.State.Status}}' mysql-books-catalog" };
+
+    recursiveMerge(config, req.body);
+
+    exec(config.command, (error, stdout, stderr) => {
+        if (error) {
+            return next(error);
+        }
+        return res.status(200).render("admin/dashboard", { 
+            books: null, 
+            mysqlStatus: stdout, 
+            username: req.user.username 
+        });
+    });
+};
+
+
+
+module.exports = { dashboardAdmin, addBook, editBook, deleteBook, checkMySQL };

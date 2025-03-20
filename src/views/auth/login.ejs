@@ -5,41 +5,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Book Catalog</title>
     <link rel="stylesheet" href="/css/styles.css">
+
+    <!-- CryptoJS for encryption -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+
+    <!-- Correct path to your AES script -->
+    <script src="../../public/js/aes.js"></script> <!-- Use absolute path if served statically -->
 </head>
 <body>
-    <!-- Include Header Partial -->
-    <%- include('../partials/header') %>
 
-    <main>
-        <section class="login">
-            <div class="login__container">
-                <h2 class="login__title">Login to Your Account</h2>
+    <!-- Header -->
+    <%- include('../partials/header-before-login') %>
 
-                <!-- Error Message -->
-                <% if (error) { %>
-                    <p class="login__error"><%= error %></p>
-                <% } %>
+    <!-- Login Form -->
+    <main class="login-container">
+        <h2>Login to Your Account</h2>
 
-                <form action="/login" method="post" class="login__form">
-                    <div class="login__form-group">
-                        <label for="username" class="login__label">Username</label>
-                        <input type="text" id="username" name="username" class="login__input" required>
-                    </div>
-                    <div class="login__form-group">
-                        <label for="password" class="login__label">Password</label>
-                        <input type="password" id="password" name="password" class="login__input" required>
-                    </div>
-                    <button type="submit" class="login__button">Login</button>
-                </form>
+        <% if (error) { %>
+            <p class="error-message"><%= error %></p>
+        <% } %>
 
-                <p class="login__register">
-                    Don't have an account? <a href="/register" class="login__link">Register here</a>
-                </p>
+        <form id="loginForm" action="/login" method="post">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
             </div>
-        </section>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required minlength="6" autocomplete="off">
+            </div>
+            <input type="hidden" id="encryptedPassword" name="encryptedPassword">
+            <button type="submit" class="login-button">Login</button>
+        </form>
+
+        <p>Don't have an account? <a href="/register">Register here</a></p>
     </main>
 
-    <!-- Include Footer Partial -->
+    <!-- Footer -->
     <%- include('../partials/footer') %>
+
+    <script>
+        const encryptPassword = (plaintext) => {
+            const key = CryptoJS.enc.Hex.parse("4a8f92d7b6e35c8a1f2d47e9c6b0517ad4e39f8c2b7d1e5f3a6c8d9e1b2f47ca3");
+            const iv = CryptoJS.enc.Hex.parse("3e9a5b7c1d4f6e8a2c3d7f9b0a1e2d4c");
+
+            const encrypted = CryptoJS.AES.encrypt(plaintext, key, {
+                iv: iv,
+                mode: CryptoJS.mode.CBC,
+                padding: CryptoJS.pad.Pkcs7
+            });
+
+            return encrypted.ciphertext.toString(CryptoJS.enc.Base64); // Proper Base64 output
+        };
+        
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            let passwordField = document.getElementById("password");
+            let hiddenPasswordField = document.getElementById("encryptedPassword");
+
+            let password = passwordField.value;
+            if (!password) {
+                alert("Password cannot be empty!");
+                event.preventDefault();
+                return false;
+            }
+
+            // Ensure encryptPassword function exists
+            if (typeof encryptPassword !== "function") {
+                alert("Encryption function not found. Please check aes.js.");
+                event.preventDefault();
+                return false;
+            }
+
+            let encrypted = encryptPassword(password);
+            hiddenPasswordField.value = encrypted; // Store encrypted password
+
+            // Clear the original password field for security
+            passwordField.value = "";
+
+            return true; // Allow form submission
+        });
+    </script>
+
 </body>
 </html>
