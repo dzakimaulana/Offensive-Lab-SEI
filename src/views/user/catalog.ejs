@@ -4,47 +4,87 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book Catalog</title>
-    <link rel="stylesheet" href="/css/styles.css"> <!-- Use the same styles.css for consistency -->
-    <link rel="stylesheet" href="/css/catalog.css"> <!-- Additional styles for the catalog page -->
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <!-- Include Header Partial -->
-    <%- include('../partials/header') %>
 
-    <main class="catalog-container">
-        <!-- Search Box -->
-        <div class="search-box">
-            <input 
-                type="text" 
-                id="search" 
-                placeholder="Search books..." 
-                value="<%= search %>"
-                class="search-input"
-            >
+    <!-- Header -->
+    <%- include('../partials/header-after-login') %>
+
+    <!-- Search Container -->
+    <div class="search-box-container">
+        <div class="search-container">
+            <form id="search-form" action="/user/books" method="GET">
+                <input type="text" id="search" name="search" placeholder="Search books..." value="<%= search || '' %>">
+                <button type="submit"><i class="fas fa-search search-icon"></i></button>
+            </form>
         </div>
+    </div>
 
-        <!-- Book List -->
-        <ul id="book-list" class="book-list">
-            <% books.forEach(book => { %>
-                <li class="book-item">
-                    <img src="<%= book.cover_image || '/images/default-book-cover.jpg' %>" 
-                        alt="<%= book.title || 'Unknown Title' %> Cover" 
-                        class="book-cover">
-                    <div class="book-details">
-                        <strong class="book-title"><%= book.title || 'Unknown Title' %></strong>
-                        <p class="book-author"><em>by <%= book.author || 'Unknown Author' %></em></p>
-                        <p class="book-year"><small>Published in <%= book.year || 'Unknown Year' %></small></p>
-                        <p class="book-rating">⭐ <%= book.average_rating || '0.0' %> ( <%= book.total_ratings || '0' %> ratings )</p>
-                    </div>
-                </li>
-            <% }); %>
-        </ul>
+    <!-- Book List -->
+    <main>
+        <div class="catalog-container">
+            <% if (books.length > 0) { %>
+                <ul id="book-list">
+                    <% books.forEach(book => { %>
+                        <li class="book-item" data-title="<%= book.title.toLowerCase() %>" data-author="<%= book.author.toLowerCase() %>">
+                            <img src="<%= book.cover_image || '/images/default-book-cover.jpg' %>" alt="<%= book.title || 'Unknown Title' %> Cover" class="book-cover">
+                            <div class="book-details">
+                                <strong><%= book.title || 'Unknown Title' %></strong>
+                                <p><em>by <%= book.author || 'Unknown Author' %></em></p>
+                                <p><small>Published in <%= book.year || 'Unknown Year' %></small></p>
+                            </div>
+                        </li>
+                    <% }) %>
+                </ul>
+            <% } else { %>
+                <p class="no-books-message">No books available.</p>
+            <% } %>
+            
+            <div id="no-results" class="no-results-message" style="display: none;">
+                <p>No books found for your search.</p>
+            </div>
+        </div>
     </main>
 
-    <!-- Include Footer Partial -->
+    <!-- Footer -->
     <%- include('../partials/footer') %>
 
-    <!-- JavaScript File -->
-    <script src="/js/catalog.js"></script>
+    <script>
+        function filterBooks() {
+            const searchInput = document.getElementById('search').value.toLowerCase();
+            const bookItems = document.querySelectorAll('.book-item');
+            const noResultsMessage = document.getElementById('no-results');
+            let visibleBooks = 0;
+
+            bookItems.forEach(book => {
+                const title = book.dataset.title;
+                const author = book.dataset.author;
+
+                if (title.includes(searchInput) || author.includes(searchInput)) {
+                    book.style.display = ''; // Show book
+                    visibleBooks++;
+                } else {
+                    book.style.display = 'none'; // Hide book
+                }
+
+                // Highlight search keywords
+                highlightKeyword(book.querySelector('strong'), searchInput);
+                highlightKeyword(book.querySelector('em'), searchInput);
+            });
+
+            // Show "No Results" message if nothing matches
+            noResultsMessage.style.display = visibleBooks === 0 ? 'block' : 'none';
+        }
+
+        function highlightKeyword(element, keyword) {
+            if (!element || !keyword) return;
+            const text = element.innerText;
+            const regex = new RegExp(`(${keyword})`, 'gi');
+            element.innerHTML = text.replace(regex, '<mark>$1</mark>');
+        }
+    </script>
+
 </body>
 </html>

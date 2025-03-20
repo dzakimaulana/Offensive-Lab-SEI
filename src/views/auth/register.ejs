@@ -4,30 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - Book Catalog</title>
-    <link rel="stylesheet" href="/css/styles.css"> <!-- Use the same styles.css for consistency -->
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
+
 <body>
-    <!-- Include Header Partial -->
-    <%- include('../partials/header') %>
+
+    <!-- Header -->
+    <%- include('../partials/header-before-login') %>
 
     <!-- Register Form -->
     <main class="register-container">
         <h2>Create an Account</h2>
-        <form action="/register" method="post" class="register-form">
+
+        <% if (error) { %>
+            <p class="error-message"><%= error %></p>
+        <% } %>
+
+        <form action="/register" method="post">
             <div class="form-group">
                 <label for="username">Username</label>
-                <input type="text" id="username" name="username" class="register-input" required>
+                <input type="text" id="username" name="username" required>
             </div>
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" class="register-input" required>
+                <input type="password" id="password" name="password" required minlength="6" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" required minlength="6" autocomplete="off">
             </div>
             <button type="submit" class="register-button">Register</button>
         </form>
-        <p class="register-login-link">Already have an account? <a href="/login">Login here</a></p>
+
+        <p>Already have an account? <a href="/login">Login here</a></p>
     </main>
 
-    <!-- Include Footer Partial -->
+    <!-- Footer -->
     <%- include('../partials/footer') %>
+
 </body>
 </html>

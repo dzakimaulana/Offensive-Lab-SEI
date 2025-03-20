@@ -3,66 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Book - Book Catalog</title>
+    <title>Edit Book</title>
     <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/edit-book.css">
 </head>
 <body>
-    <%- include('../partials/header') %>
+    <!-- Header -->
+    <%- include('../partials/header-after-login') %>
 
-    <main class="edit-book-container">
+    <!-- Main Content -->
+    <main class="container">
         <h1>Edit Book</h1>
 
-        <!-- Display error message if any -->
-        <% if (error) { %>
-            <p class="error-message"><%= error %></p>
-        <% } %>
-
-        <form action="/admin/books/<%= book.id %>/edit" method="POST" enctype="multipart/form-data" class="edit-book-form">
-            <!-- Hidden input for ID -->
+        <!-- Form to edit the book -->
+        <form action="/admin/books/<%= book.id %>/edit" method="POST" class="edit-book-form" onsubmit="return validateForm()">
+            <!-- Hidden Input for Book ID -->
             <input type="hidden" name="id" value="<%= book.id %>">
-            
-            <!-- Title -->
+
+            <!-- Title Field -->
             <div class="form-group">
                 <label for="title">Title:</label>
-                <input type="text" id="title" name="title" value="<%= book.title %>" class="form-input" required>
+                <input 
+                    type="text" 
+                    id="title" 
+                    name="title" 
+                    value="<%= book.title %>" 
+                    required 
+                    placeholder="Enter the book title"
+                >
             </div>
 
-            <!-- Author -->
+            <!-- Author Field -->
             <div class="form-group">
                 <label for="author">Author:</label>
-                <input type="text" id="author" name="author" value="<%= book.author %>" class="form-input" required>
+                <input 
+                    type="text" 
+                    id="author" 
+                    name="author" 
+                    value="<%= book.author %>" 
+                    required 
+                    placeholder="Enter the author's name"
+                >
             </div>
 
-            <!-- Year -->
+            <!-- Year Field -->
             <div class="form-group">
                 <label for="year">Year:</label>
-                <input type="number" id="year" name="year" value="<%= book.year %>" class="form-input" required>
+                <input 
+                    type="number" 
+                    id="year" 
+                    name="year" 
+                    value="<%= book.year %>" 
+                    min="1000" 
+                    max="<%= new Date().getFullYear() %>" 
+                    required 
+                    placeholder="Enter the publication year"
+                >
             </div>
 
-            <!-- Description -->
-            <div class="form-group">
-                <label for="description">Description:</label>
-                <textarea id="description" name="description" class="form-input" rows="4" required><%= book.description %></textarea>
-            </div>
+            <!-- Error Message (Initially Hidden) -->
+            <p id="error-message" class="error-message" style="display: none;">All fields are required!</p>
 
-            <!-- Cover Image -->
-            <div class="form-group">
-                <label for="cover_image">Cover Image:</label>
-                <input type="file" id="cover_image" name="cover_image" class="form-input">
-                <% if (book.cover_image) { %>
-                    <div class="cover-preview-container">
-                        <p>Current Cover:</p>
-                        <img src="<%= book.cover_image %>" alt="Cover Image" class="cover-preview">
-                    </div>
-                <% } %>
-            </div>
-
-            <!-- Update Button -->
+            <!-- Submit Button -->
             <button type="submit" class="update-button">Update Book</button>
         </form>
     </main>
 
+    <!-- Footer -->
     <%- include('../partials/footer') %>
+
+    <!-- JavaScript for Form Validation -->
+    <script>
+        function validateForm() {
+            const title = document.getElementById('title').value.trim();
+            const author = document.getElementById('author').value.trim();
+            const year = document.getElementById('year').value.trim();
+            const errorMessage = document.getElementById('error-message');
+
+            // Validate inputs
+            if (!title || !author || !year) {
+                errorMessage.textContent = "All fields are required!";
+                errorMessage.style.display = "block";
+                return false;
+            }
+
+            // Validate year
+            const currentYear = new Date().getFullYear();
+            if (year < 1000 || year > currentYear) {
+                errorMessage.textContent = `Year must be between 1000 and ${currentYear}.`;
+                errorMessage.style.display = "block";
+                return false;
+            }
+
+            // Hide error message if valid
+            errorMessage.style.display = "none";
+            return true;
+        }
+    </script>
 </body>
 </html>

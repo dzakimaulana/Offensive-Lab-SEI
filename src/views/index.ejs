@@ -7,39 +7,41 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <!-- Include Header Partial -->
-    <%- include('partials/header') %>
 
-    <main>
-        <!-- Welcome Section -->
+    <!-- Header -->
+    <%- include('partials/header-before-login') %>
+
+    <!-- Main Content -->
+    <main id="welcome-section">
         <section class="welcome-section">
             <h2>Welcome to the Book Catalog</h2>
             <p>Explore our vast collection of books from various genres.</p>
-            <a href="/books" class="cta-button">Explore Catalog</a>
+            <a href="/catalog" class="cta-button">Browse Catalog</a>
         </section>
 
         <!-- Testimonial Section -->
-        <section class="testimonials">
+        <section id="testimonials" class="testimonials">
             <h2>What Our Readers Say</h2>
             <div class="testimonial-container">
-                <% let testimonials = [
-                    { text: "This book catalog has an amazing collection! I found rare books I couldn't find anywhere else.", author: "Riswan Hermawan" },
-                    { text: "A fantastic platform for book lovers. The interface is easy to navigate, and the recommendations are great!", author: "Dzaki Maulana" },
-                    { text: "I love how organized everything is. The categories help me find exactly what I need in seconds!", author: "Arrizal Rizki" },
-                    { text: "The best book catalog I've ever used! The UI is smooth, and I always discover new books to read!", author: "Heaven Aulianisa" }
+                <% const testimonials = [
+                    { text: "This book catalog has an amazing collection! I found rare books I couldn't find anywhere else.", name: "Riswan Hermawan" },
+                    { text: "A fantastic platform for book lovers. The interface is easy to navigate, and the recommendations are great!", name: "Dzaki Maulana" },
+                    { text: "I love how organized everything is. The categories help me find exactly what I need in seconds!", name: "Arrizal Rizki" },
+                    { text: "An excellent resource for discovering new books. The reviews and summaries are incredibly helpful!", name: "Heaven Aulianisa" }
                 ]; %>
 
-                <% testimonials.forEach(({ text, author }) => { %>
+                <% testimonials.forEach(testimonial => { %>
                     <div class="testimonial">
-                        <p>"<%= text %>"</p>
-                        <h4>- <%= author %> -</h4>
+                        <p>"<%= testimonial.text %>"</p>
+                        <h4>- <%= testimonial.name %> -</h4>
                     </div>
                 <% }); %>
             </div>
         </section>
     </main>
 
-    <!-- Include Footer Partial -->
+    <!-- Footer -->
     <%- include('partials/footer') %>
+
 </body>
 </html>

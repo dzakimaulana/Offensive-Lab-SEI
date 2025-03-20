@@ -7,41 +7,45 @@
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
-    <!-- Include Header Partial -->
-    <%- include('../partials/header') %>
+    <!-- Header -->
+    <%- include('../partials/header-before-login') %>
 
-    <main class="about-container">
-        <h1 class="section-title">About Us</h1>
+    <!-- Main Content -->
+    <main class="centered-container">
+        <div class="about-container">
+            <h1>About Us</h1>
 
-        <section class="about-section fade-in">
-            <h2>📚 Our Mission</h2>
-            <p>
-                At <strong>Book Catalog</strong>, our mission is to connect readers with the best books from around the world. 
-                We believe books are a gateway to <em>knowledge, imagination, and personal growth.</em>
-            </p>
-        </section>
+            <!-- Section: Our Mission -->
+            <section class="about-section">
+                <h2><i class="fas fa-bullseye"></i> Our Mission</h2>
+                <p>
+                    At Book Catalog, our mission is to provide readers with access to the best collection of books from around the world. We believe that books are a gateway to knowledge, imagination, and personal growth.
+                </p>
+            </section>
 
-        <section class="about-section fade-in">
-            <h2>👥 Who We Are</h2>
-            <p>
-                Founded in <strong>2023</strong>, Book Catalog started as a passion project by a group of book lovers who 
-                wanted to create an easy-to-use platform for book discovery. Today, we are a thriving 
-                <em>community-driven</em> platform loved by readers worldwide.
-            </p>
-        </section>
+            <!-- Section: Who We Are -->
+            <section class="about-section">
+                <h2><i class="fas fa-users"></i> Who We Are</h2>
+                <p>
+                    Founded in 2023, Book Catalog started as a small project by a group of book enthusiasts who wanted to create a platform where people could easily discover and explore books. Today, we have grown into a community-driven platform loved by readers worldwide.
+                </p>
+                <img src="/images/aboutus.jpg" alt="Our Team" class="about-image">
+            </section>
 
-        <section class="about-section fade-in">
-            <h2>🌟 Why Choose Us?</h2>
-            <ul class="about-list">
-                <li>📖 Wide selection of books across various genres</li>
-                <li>⚡ User-friendly interface for smooth navigation</li>
-                <li>🔄 Regular updates with new releases</li>
-                <li>💬 A passionate community of readers and authors</li>
-            </ul>
-        </section>
+            <!-- Section: Why Choose Us? -->
+            <section class="about-section">
+                <h2><i class="fas fa-check-circle"></i> Why Choose Us?</h2>
+                <ul class="about-list">
+                    <li><i class="fas fa-book"></i> Wide selection of books across genres</li>
+                    <li><i class="fas fa-search"></i> User-friendly interface for easy navigation</li>
+                    <li><i class="fas fa-sync-alt"></i> Regular updates with new releases</li>
+                    <li><i class="fas fa-users"></i> A passionate community of readers and authors</li>
+                </ul>
+            </section>
+        </div>
     </main>
 
-    <!-- Include Footer Partial -->
+    <!-- Footer -->
     <%- include('../partials/footer') %>
 </body>
 </html>

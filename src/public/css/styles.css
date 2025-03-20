@@ -1,369 +1,442 @@
-/* General Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+
 
 body {
-    font-family: 'Arial', sans-serif;
-    line-height: 1.6;
-    background-color: #f4f4f4; /* Light gray background */
-    color: #333; /* Dark gray text */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+h1 {
+    color: #112240;
+}
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+li {
+    background: #112240;
+    margin: 10px 0;
+    padding: 10px;
+    
 }
 
-/* Header Styles (Already Provided) */
-.header {
+
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    font-size: 22px;
+    margin: 0;
+    padding: 0;
+    background-color: #ffffff; 
+    color: #ffffff;
+
+}
+
+.welcome-section {
+    font-family: 'Arial', sans-serif;
+    color: #112240;
+    
+}
+
+.footer-section {
+    font-family: 'Arial', sans-serif;
+    color: #fffefe;
+}
+
+a {
+    color: #ffffff; 
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ccd6f6; 
+}
+
+/* Header Styles */
+header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem 2rem;
-    background-color: #2c3e50; /* Dark blue */
-    color: #ecf0f1; /* Light gray */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background-color: #112240;
+    color: #ffffff;
 }
 
-.header__logo {
+header .logo {
     display: flex;
     align-items: center;
-    gap: 1rem;
 }
 
-.header__logo-img {
+header .logo img {
     height: 50px;
-    width: auto;
+    margin-right: 10px;
 }
 
-.header__title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #ecf0f1;
+header .logo .logo-text {
+    color: #ffffff !important; /* Warna putih */
+    font-size: 1.5em;
+    margin: 0;
 }
 
-.header__menu {
-    display: flex;
+/* Override Specific Pages */
+.register-container .logo-text,
+.login-container .logo-text,
+.about-container .logo-text,
+.contact-container .logo-text {
+    color: #ffffff; /* Pastikan tetap putih di semua halaman */
+}
+
+ul .header-menu {
+    font-family: 'Arial', sans-serif;
+    color: #ffffff;
+}
+
+header nav ul {
     list-style: none;
-    gap: 1.5rem;
+    margin: 10;
+    padding: 10;
+    display: flex;
 }
 
-.header__menu li a {
-    text-decoration: none;
-    color: #ecf0f1;
-    font-size: 1rem;
-    transition: color 0.3s ease;
+header nav ul li {
+    margin-left: 20px;
+    
 }
 
-.header__menu li a:hover {
-    color: #3498db; /* Light blue */
-}
-
-.header__login-button {
-    background-color: #3498db; /* Light blue */
-    padding: 0.5rem 1rem;
+header nav ul li a.login-button {
+    background-color: #ffffff; 
+    color: #112240; 
+    padding: 10px 20px;
     border-radius: 5px;
-    transition: background-color 0.3s ease;
 }
 
-.header__login-button:hover {
-    background-color: #2980b9; /* Darker blue */
-}
-
-.header__menu-button {
-    display: none;
-    background: none;
-    border: none;
-    color: #ecf0f1;
-    font-size: 1.5rem;
-    cursor: pointer;
-}
-
-@media (max-width: 768px) {
-    .header__menu {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 70px;
-        right: 2rem;
-        background-color: #2c3e50;
-        padding: 1rem;
-        border-radius: 5px;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .header__menu.active {
-        display: flex;
-    }
-
-    .header__menu-button {
-        display: block;
-    }
+header nav ul li a.login-button:hover {
+    background-color: #aaa; 
 }
 
 /* Main Content Styles */
 main {
-    padding: 2rem;
-}
-
-/* Welcome Section */
-.welcome-section {
+    padding: 50px 40px;
     text-align: center;
-    padding: 4rem 2rem;
-    background-color: #ffffff; /* White background */
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem;
+    margin-bottom: 50px;
+    flex: 1;
+    padding: 20px;
 }
 
 .welcome-section h2 {
-    font-size: 2.5rem;
-    color: #2c3e50; /* Dark blue */
-    margin-bottom: 1rem;
+    font-size: 2.5em;
+    margin-bottom: 20px;
 }
 
 .welcome-section p {
-    font-size: 1.2rem;
-    color: #666; /* Medium gray */
-    margin-bottom: 2rem;
+    font-size: 1.2em;
+    margin-bottom: 50px;
 }
 
 .cta-button {
-    display: inline-block;
-    padding: 0.8rem 2rem;
-    background-color: #3498db; /* Light blue */
-    color: #ffffff; /* White */
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
+    background-color: #112240; 
+    color: #ffffff; 
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 1.1em;
 }
 
 .cta-button:hover {
-    background-color: #2980b9; /* Darker blue */
-}
-
-/* Testimonials Section */
-.testimonials {
-    text-align: center;
-    padding: 2rem;
-    background-color: #ffffff; /* White background */
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-.testimonials h2 {
-    font-size: 2rem;
-    color: #2c3e50; /* Dark blue */
-    margin-bottom: 2rem;
-}
-
-.testimonial-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-}
-
-.testimonial {
-    background-color: #ecf0f1; /* Light gray */
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-}
-
-.testimonial:hover {
-    transform: translateY(-5px);
-}
-
-.testimonial p {
-    font-size: 1rem;
-    color: #333; /* Dark gray */
-    margin-bottom: 1rem;
-}
-
-.testimonial h4 {
-    font-size: 1rem;
-    color: #3498db; /* Light blue */
+    background-color: #ffffff; 
 }
 
 /* Footer Styles */
-.footer {
-    background-color: #2c3e50; /* Dark blue */
-    color: #ecf0f1; /* Light gray */
-    padding: 1.5rem 2rem;
+footer {
+    background-color: #112240;
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    color: #ffffff;
+    font-family: 'Arial', sans-serif;
     text-align: center;
-    margin-top: auto;
-    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.footer__container {
-    max-width: 1200px;
-    margin: 0 auto;
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        font-size: 14px; /* Kurangi ukuran font default */
+    }
+
+    header .logo img {
+        height: 40px; /* Kecilkan ukuran logo */
+        margin-right: 5px;
+    }
+
+    header nav ul li {
+        margin-left: 10px; /* Kurangi jarak antar menu */
+    }
+
+    h1 {
+        font-size: 1.8em; /* Kecilkan ukuran judul */
+    }
+
+    .footer-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .footer-section {
+        min-width: 100%; /* Jadikan footer full width pada layar kecil */
+        text-align: center;
+    }
 }
 
-.footer__text {
-    font-size: 0.9rem;
-    margin: 0;
+/* Login Page */
+.login-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #112240; 
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
 }
 
-/* Contact Page Styles */
-.contact-header {
+.login-container h2 {
     text-align: center;
-    padding: 4rem 2rem;
-    background-color: #ffffff; /* White background */
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin: 2rem auto;
-    max-width: 800px;
+    margin-bottom: 20px;
 }
 
-.contact-header h1 {
-    font-size: 2.5rem;
-    color: #2c3e50; /* Dark blue */
-    margin-bottom: 1rem;
+.form-group {
+    margin-bottom: 15px;
 }
 
-.contact-header .intro-text {
-    font-size: 1.2rem;
-    color: #666; /* Medium gray */
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
 }
 
-.contact-info {
-    background-color: #ecf0f1; /* Light gray */
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin: 2rem auto;
-    max-width: 800px;
+.form-group input {
+    width: 90%;
+    padding: 8px;
+    border: 1px solid #0a192f; 
+    border-radius: 15px;
+    background-color: #ffffff; 
+    color: #000000;
 }
 
-.contact-info ul {
+.login-container button.login-button {
+    width: 90%;
+    padding: 10px;
+    background-color: #0a192f; 
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.login-container button.login-button:hover {
+    background-color: #ccd6f6;
+}
+
+.login-container a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-container a:hover {
+    text-decoration: underline;
+}
+
+/* Register */
+
+.register-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    background-color: #112240; 
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+}
+
+.register-container .form-group {
+    margin-bottom: 15px;
+}
+
+.register-container .logo-text {
+    color: #ffffff;
+}
+
+.register-container .form-group input {
+    width: 90%;
+    padding: 8px;
+    border-radius: 15px;
+    background-color: #ffffff; 
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.register-container .form-group input:focus {
+    outline: none;
+    border-color: #ccd6f6;
+    box-shadow: 0 0 0 2px rgba(199, 210, 254, 0.5);
+}
+
+/* Register Button Styling */
+.register-container button.register-button {
+    width: 90%;
+    padding: 10px;
+    background-color: #0a192f; 
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+.register-container button.register-button:hover {
+    background-color: #aaa;
+    transform: translateY(-1px);
+}
+
+/* Link Styling */
+.register-container p {
+    text-align: center;
+    margin-top: 15px;
+    color: #ffffff;
+}
+
+.register-container a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    font-style: italic;
+
+}
+
+.register-container a:hover {
+    text-decoration: underline;
+}
+
+/* Error Message Styling */
+.register-container .error-message {
+    background-color: #ffe6e6;
+    color: #cc0000;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ffffff;
+}
+
+
+/* Book List */
+#book-list {
     list-style: none;
     padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
 }
 
-.contact-info li {
-    font-size: 1.1rem;
-    color: #333; /* Dark gray */
-    margin-bottom: 1rem;
-}
-
-.contact-info li strong {
-    color: #2c3e50; /* Dark blue */
-}
-
-.contact-info a {
-    color: #3498db; /* Light blue */
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.contact-info a:hover {
-    color: #2980b9; /* Darker blue */
-}
-
-.contact-form {
-    background-color: #ffffff; /* White background */
-    padding: 2rem;
+.book-item {
+    background-color: #0a192f;
+    border: 1px solid #ddd;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin: 2rem auto;
-    max-width: 800px;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
 }
 
-.contact-form .form-group {
-    margin-bottom: 1.5rem;
+.book-item:hover {
+    transform: translateY(-5px);
 }
 
-.contact-form label {
-    display: block;
-    font-size: 1rem;
-    color: #2c3e50; /* Dark blue */
-    margin-bottom: 0.5rem;
-}
-
-.contact-form input,
-.contact-form textarea {
+.book-cover {
     width: 100%;
-    padding: 0.8rem;
-    font-size: 1rem;
-    border: 1px solid #ddd; /* Light gray border */
-    border-radius: 5px;
-    transition: border-color 0.3s ease;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
 }
 
-.contact-form input:focus,
-.contact-form textarea:focus {
-    border-color: #3498db; /* Light blue */
-    outline: none;
+.book-details {
+    text-align: center;
+    color: #ffffff;
 }
 
-.contact-form textarea {
-    resize: vertical;
+.book-details strong {
+    font-size: 18px;
+    display: block;
+    margin-bottom: 5px;
 }
 
-.submit-button {
-    display: inline-block;
-    padding: 0.8rem 2rem;
-    background-color: #3498db; /* Light blue */
-    color: #ffffff; /* White */
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+.book-details p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #ffffff;
 }
 
-.submit-button:hover {
-    background-color: #2980b9; /* Darker blue */
+.catalog-container {
+    max-width: 1200px; /* Lebar maksimal container */
+    margin: 0 auto; /* Pusatkan container */
+    padding: 20px; /* Ruang di sekitar container */
+}
+
+.book-item.placeholder {
+    background-color: transparent;
+    border: 1px dashed #ccc;
+    box-shadow: none;
+    pointer-events: none; /* Nonaktifkan interaksi */
 }
 
 /* About Page Styles */
 .about-container {
-    padding: 2rem;
-    max-width: 800px;
-    margin: 0 auto;
+    padding: 40px 40px;
+    max-width: 1200px;
+    margin: 0 auto; /* Memastikan container terpusat */
+    text-align: center;
+    color: #0a192f; /* Warna teks utama navy */
 }
 
-.section-title {
-    text-align: center;
-    font-size: 2.5rem;
-    color: #2c3e50; /* Dark blue */
-    margin-bottom: 2rem;
+.about-container h1 {
+    font-size: 2.5em;
+    color: #0a192f; /* Judul halaman berwarna navy */
+    margin-bottom: 30px;
 }
 
 .about-section {
-    background-color: #ffffff; /* White background */
-    padding: 1.5rem;
+    background-color: #0a192f; /* Latar belakang navy */
+    color: #ffffff; /* Warna teks putih */
+    margin-bottom: 30px;
+    text-align: left;
+    padding: 5px 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 2rem;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.about-section:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .about-section h2 {
-    font-size: 1.8rem;
-    color: #2c3e50; /* Dark blue */
-    margin-bottom: 1rem;
+    font-size: 1.8em;
+    color: #ffffff; /* Judul section berwarna putih */
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: bold;
 }
 
 .about-section p {
-    font-size: 1.1rem;
-    color: #666; /* Medium gray */
+    font-size: 0.8em;
     line-height: 1.6;
+    color: #ffffff; /* Paragraf berwarna putih */
+    margin-bottom: 20px;
 }
 
-.about-section strong {
-    color: #2c3e50; /* Dark blue */
-}
-
-.about-section em {
-    color: #3498db; /* Light blue */
-    font-style: italic;
+.about-section img.about-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .about-list {
@@ -372,376 +445,499 @@ main {
 }
 
 .about-list li {
-    font-size: 1.1rem;
-    color: #333; /* Dark gray */
-    margin-bottom: 0.8rem;
-    padding-left: 1.5rem;
-    position: relative;
-}
-
-.about-list li::before {
-    content: "✔️";
-    position: absolute;
-    left: 0;
-    color: #3498db; /* Light blue */
-}
-
-/* Login Page Styles */
-.login {
+    font-size: 0.8em;
+    color: #ffffff; /* Teks list berwarna putih */
+    margin-bottom: 10px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    min-height: 80vh;
-    padding: 2rem;
-    background-color: #f4f4f4; /* Light gray background */
+    gap: 10px;
 }
 
-.login__container {
-    background-color: #ffffff; /* White background */
-    padding: 2rem;
+.about-list i {
+    color: #ffffff; /* Ikon berwarna kuning */
+    font-size: 1.0em;
+}
+
+/* Centered Container */
+.centered-container {
+    display: flex;
+    justify-content: center; /* Pusatkan secara horizontal */
+    align-items: center; /* Pusatkan secara vertikal */
+    min-height: calc(100vh - 160px); /* Tinggi viewport dikurangi header dan footer */
+    padding: 20px;
+}
+
+/* Contact Form */
+.contact-form {
+    background-color: #0a192f; /* Latar belakang navy */
+    color: #ffffff; /* Warna teks putih */
+    margin-top: 10px;
+    padding: 30px;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    max-width: 1000px;
+}
+
+.contact-info p {
+    font-size: 20px;
+    line-height: 1.6;
+    color: #0a192f; /* Warna teks putih */
+    margin-bottom: 20px;
+}
+
+.contact-info h2 {
+    font-size: 1.8em;
+    color: #0a192f; /* Warna kuning */
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.contact-form h2 {
+    font-size: 1.8em;
+    color: #ffffff; /* Warna teks putih */
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.contact-form .form-group {
+    margin-bottom: 20px;
+}
+
+.contact-form label {
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    color: #ffffff; /* Label berwarna putih */
+    margin-bottom: 5px;
+    gap: 10px;
+}
+
+.contact-form input,
+.contact-form textarea {
     width: 100%;
-}
-
-.login__title {
-    font-size: 2rem;
-    color: #2c3e50; /* Dark blue */
-    text-align: center;
-    margin-bottom: 1.5rem;
-}
-
-.login__error {
-    color: #e74c3c; /* Red */
-    text-align: center;
-    margin-bottom: 1rem;
-}
-
-.login__form-group {
-    margin-bottom: 1.5rem;
-}
-
-.login__label {
-    display: block;
-    font-size: 1rem;
-    color: #2c3e50; /* Dark blue */
-    margin-bottom: 0.5rem;
-}
-
-.login__input {
-    width: 100%;
-    padding: 0.8rem;
-    font-size: 1rem;
-    border: 1px solid #ddd; /* Light gray border */
+    padding: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.1);
+    font-size: 16px;
+    color: #ffffff; /* Teks input berwarna putih */
     transition: border-color 0.3s ease;
 }
 
-.login__input:focus {
-    border-color: #3498db; /* Light blue */
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: #ffffff; /* Highlight putih saat fokus */
     outline: none;
 }
 
-.login__button {
-    width: 100%;
-    padding: 0.8rem;
-    background-color: #3498db; /* Light blue */
-    color: #ffffff; /* White */
-    border: none;
+/* Submit Button Styling */
+.contact-form button.submit-button {
+    background-color: #0a192f; /* Latar belakang navy */
+    color: #ffffff; /* Teks putih */
+    border: 1px solid #ccc;
+    padding: 12px 20px;
     border-radius: 5px;
-    font-size: 1rem;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    font-weight: bold;
+    font-size: 16px;
+    transition: all 0.3s ease;
 }
 
-.login__button:hover {
-    background-color: #2980b9; /* Darker blue */
+.contact-form button.submit-button:hover {
+    background-color: #ccc; /* Efek hover kuning */
+    color: #0a192f; /* Teks navy saat hover */
 }
 
-.login__register {
+/* testimoni */
+.testimonials {
     text-align: center;
-    font-size: 0.9rem;
-    color: #666; /* Medium gray */
-    margin-top: 1.5rem;
+    background: #1b2a4e;
+    padding: 50px 20px;
+    color: white;
+    margin-top: 50px;
+    border-radius: 20px;
 }
 
-.login__link {
-    color: #3498db; /* Light blue */
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.login__link:hover {
-    color: #2980b9; /* Darker blue */
-}
-
-/* Logout Page Styles */
-.logout {
+.testimonial-container {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    min-height: 80vh;
-    padding: 2rem;
-    background-color: #f4f4f4; /* Light gray background */
+    gap: 40px;
 }
 
-.logout__container {
-    background-color: #ffffff; /* White background */
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    width: 100%;
+.testimonial {
+    background: #2c3e5e;
+    padding: 20px;
+    border-radius: 50px;
+    width: 300px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.testimonial p {
+    font-style: italic;
+}
+
+.testimonial h4 {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+/* Admin Dashboard Styles */
+h1 {
     text-align: center;
+    color: #ffffff;
+    margin-bottom: 20px;
 }
 
-.logout__title {
-    font-size: 2rem;
-    color: #2c3e50; /* Dark blue */
-    margin-bottom: 1.5rem;
-}
-
-.logout__message {
-    font-size: 1.2rem;
-    color: #555; /* Dark gray */
-    margin-bottom: 1.5rem;
-}
-
-.logout__button {
-    padding: 0.8rem;
-    background-color: #3498db; /* Light blue */
-    color: #ffffff; /* White */
-    border: none;
-    border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.logout__button:hover {
-    background-color: #2980b9; /* Darker blue */
-}
-
-.logout__redirect {
-    font-size: 1rem;
-    color: #888; /* Lighter gray */
-    margin-top: 1rem;
-}
-
-.logout__link {
-    color: #3498db; /* Light blue */
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.logout__link:hover {
-    color: #2980b9; /* Darker blue */
-}
-
-/* Login Button */
-.header__login-button {
-    background-color: #3498db; /* Light blue */
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    color: #ffffff; /* White */
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-}
-
-.header__login-button:hover {
-    background-color: #2980b9; /* Darker blue */
-}
-
-/* Logout Button */
-.header__logout-button {
-    background-color: #e74c3c; /* Red */
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    color: #ffffff; /* White */
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.header__logout-button:hover {
-    background-color: #c0392b; /* Darker red */
-}
-
-/* Logout Form */
-.logout-form {
-    display: inline-block;
-    margin: 0;
-}
-
-
-/* Register Page Styles */
-.register-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 80vh;
-    padding: 2rem;
-    background-color: #f4f4f4; /* Light gray background */
-}
-
-.register-container h2 {
-    font-size: 2rem;
-    color: #2c3e50; /* Dark blue */
-    margin-bottom: 1.5rem;
-    text-align: center;
-}
-
-.register-form {
-    background-color: #ffffff; /* White background */
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 400px;
-    width: 100%;
-}
-
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-group label {
+.add-button {
     display: block;
-    font-size: 1rem;
-    color: #2c3e50; /* Dark blue */
-    margin-bottom: 0.5rem;
-}
-
-.register-input {
-    width: 100%;
-    padding: 0.8rem;
-    font-size: 1rem;
-    border: 1px solid #ddd; /* Light gray border */
-    border-radius: 5px;
-    transition: border-color 0.3s ease;
-}
-
-.register-input:focus {
-    border-color: #3498db; /* Light blue */
-    outline: none;
-}
-
-.register-button {
-    width: 100%;
-    padding: 0.8rem;
-    background-color: #3498db; /* Light blue */
-    color: #ffffff; /* White */
+    width: fit-content;
+    margin: 0 auto 20px;
+    background-color: #0a192f;
+    color: #ffffff;
+    padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.register-button:hover {
-    background-color: #2980b9; /* Darker blue */
-}
-
-.register-login-link {
-    text-align: center;
-    font-size: 0.9rem;
-    color: #666; /* Medium gray */
-    margin-top: 1.5rem;
-}
-
-.register-login-link a {
-    color: #3498db; /* Light blue */
     text-decoration: none;
-    transition: color 0.3s ease;
+    font-weight: bold;
+    transition: all 0.3s ease;
 }
 
-.register-login-link a:hover {
-    color: #2980b9; /* Darker blue */
+.add-button:hover {
+    background-color: #ccd6f6;
 }
 
-/* Catalog Page Styles */
-.catalog-container {
-    padding: 2rem;
+/* Book Table */
+.book-table {
+    width: 100%;
     max-width: 1200px;
     margin: 0 auto;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    color: #ffffff;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-/* Search Box */
-.search-box {
-    margin-bottom: 2rem;
+.book-table th,
+.book-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #ffffff;}
+
+.book-table th {
+    background-color: #112240;
+    color: #ffffff;
     text-align: center;
 }
 
-.search-input {
-    width: 100%;
-    max-width: 500px;
-    padding: 0.8rem;
-    font-size: 1rem;
-    border: 1px solid #ddd; /* Light gray border */
+.book-table td {
+    background-color: #ffffff;
+    color: #112240;
+    text-align: center;
+    border-bottom: 1px solid #112240;
+}
+
+
+.book-table tr:hover {
+    background-color: #112240;
+}
+
+/* Action Buttons */
+.edit-button,
+.delete-button {
+    display: inline-block;
+    padding: 5px 10px;
     border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.edit-button {
+    background-color: #2c3e5e;
+    color: #ffffff;
+    border: none;
+}
+
+.edit-button:hover {
+    background-color: #ccd6f6;
+}
+
+.delete-button {
+    background-color: #ff1a1a;
+    color: #ffffff;
+    border: none;
+}
+
+.delete-button:hover {
+    background-color: #ff1a1a;
+}
+
+/* Form Add New Book */
+.add-book-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #0a192f;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.add-book-form label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.add-book-form input[type="text"],
+.add-book-form input[type="number"] {
+    width: 95%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    font-size: 16px;
     transition: border-color 0.3s ease;
 }
 
-.search-input:focus {
-    border-color: #3498db; /* Light blue */
+.add-book-form input[type="text"]:focus,
+.add-book-form input[type="number"]:focus {
+    border-color: #ffffff;
     outline: none;
 }
 
-/* Book List */
-.book-list {
-    list-style: none;
-    padding: 0;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
+.add-book-form p {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #ffffff;
+}
+
+.add-book-form input[type="file"] {
+    margin-top: 10px;
+}
+
+.submit-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #112240;
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #ccc;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .book-table th,
+    .book-table td {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .add-book-form,
+    .login-container,
+    .register-container {
+        padding: 15px;
+    }
+
+    .add-book-form input[type="text"],
+    .add-book-form input[type="number"] {
+        font-size: 14px;
+    }
+
+    .submit-button,
+    .delete-button {
+        font-size: 14px;
+    }
+}
+
+
+/* Edit Book Page Styles */
+h1 {
+    text-align: center;
+    color: #0a192f;
+    margin-bottom: 30px;
+}
+
+.edit-book-form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #0a192f;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.edit-book-form label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.edit-book-form input[type="text"],
+.edit-book-form input[type="number"] {
+    width: 95%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #112240;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.edit-book-form input[type="text"]:focus,
+.edit-book-form input[type="number"]:focus {
+    border-color: #112240;
+    outline: none;
+}
+
+.update-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background-color: #112240;
+    color: #ffffff;
+    border: none;
+    border: 1px solid #ffffff;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.update-button:hover {
+    background-color: #0a192f;
+}
+
+/* Profile Section */
+.header-menu .profile-section {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-icon {
+    font-size: 24px;
+    color: #ffffff;
+}
+
+.username {
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.logout-button {
+    margin-left: 10px;
+    background-color: transparent;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.logout-button:hover {
+    color: #7d7c6d;
+}
+
+/* Styling untuk container search bar */
+.search-box-container {
+    display: flex;
+    justify-content: flex-end; /* Posisikan search bar di sebelah kanan */
+    padding: 20px; /* Jarak antara header dan search bar */
+    background-color: #ffffff; /* Latar belakang putih agar tidak terlihat kosong */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Efek bayangan ringan */
+}
+
+.search-container {
+    position: relative;
+    width: 300px; /* Lebar tetap untuk search bar */
+}
+
+#search {
+    width: 100%;
+    padding: 10px 40px 10px 15px; /* Ruang di dalam input */
+    border: 1px solid #0a192f;
+    border-radius: 25px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+#search:focus {
+    border-color: #0a192f; /* Highlight saat difokuskan */
+}
+
+.search-icon {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #0a192f;
+    pointer-events: none; /* Nonaktifkan interaksi pada ikon */
 }
 
 .book-item {
-    background-color: #ffffff; /* White background */
-    padding: 1rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+.book-item[style*="display: none"] {
+    opacity: 0;
+    transform: scale(0.95);
 }
 
-.book-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+/* Styling untuk header Book List */
+.book-list-header {
+    display: flex;
+    justify-content: space-between; /* Judul di kiri, search bar di kanan */
+    align-items: center; /* Pusatkan elemen secara vertikal */
+    margin-bottom: 20px; /* Jarak antara header dan tabel */
 }
 
-.book-cover {
-    width: 100%;
-    height: auto;
+.book-list-header h2 {
+    margin: 0; /* Hilangkan margin default dari h2 */
+    font-size: 1.8em;
+    color: #ffffff; /* Warna teks sesuai tema */
+}
+
+.book-item {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 1;
+}
+.book-item[style*="display: none"] {
+    opacity: 0;
+    transform: scale(0.95);
+}
+
+.mysql-check-button {
+    display: block;
+    margin: 15px auto;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+    border: none;
     border-radius: 5px;
-    margin-bottom: 1rem;
 }
 
-.book-details {
-    text-align: center;
+.mysql-check-button:hover {
+    background-color: #0056b3;
 }
-
-.book-title {
-    font-size: 1.2rem;
-    color: #2c3e50; /* Dark blue */
-    margin-bottom: 0.5rem;
-}
-
-.book-author {
-    font-size: 1rem;
-    color: #666; /* Medium gray */
-    margin-bottom: 0.5rem;
-}
-
-.book-year {
-    font-size: 0.9rem;
-    color: #999; /* Light gray */
-    margin-bottom: 0.5rem;
-}
-
-.book-rating {
-    font-size: 0.9rem;
-    color: #f39c12; /* Orange */
-    margin-bottom: 0;
-}
-
