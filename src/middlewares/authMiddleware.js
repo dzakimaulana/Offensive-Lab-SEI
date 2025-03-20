@@ -9,13 +9,13 @@ const isAuth = (req, res, next) => {
     }
 
     try {
-        const data = verifyToken(token);
-        req.user = data;
-
+        req.user = verifyToken(token);
         if (isAuthPage) {
-            return res.redirect("/user/books");
+            if (req.user.role === "admin") {
+                return res.redirect("/admin")
+            }
+            return res.redirect("/user/books")
         }
-
         next();
     } catch (error) {
         console.error("Authentication Error:", error.message);
@@ -24,19 +24,23 @@ const isAuth = (req, res, next) => {
     }
 };
 
-const isAdmin = (req, res, next) => {
-    if (!req.user || req.user.role !== "admin") {
-        return res.redirect("/user/books");
+const restrictAccess = (req, res, next) => {
+    const { user } = req;
+
+    if (!user) {
+        return res.redirect("/login");
+    }
+
+    if (req.originalUrl.startsWith("/admin") && user.role !== "admin") {
+        return res.status(404).render("error", { statusCode: 404, message: "Page Not Found" });
+    }
+
+    if (req.originalUrl.startsWith("/user") && user.role === "admin") {
+        return res.status(404).render("error", { statusCode: 404, message: "Page Not Found" });
     }
 
     next();
 };
 
 
-
-const attachUser = (req, res, next) => {
-    res.locals.user = req.user || null;
-    next();
-};
-
-module.exports = { isAuth, isAdmin, attachUser };
+module.exports = { isAuth, restrictAccess };

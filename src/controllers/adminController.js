@@ -2,6 +2,7 @@ const db = require('../config/database');
 const { exec } = require("child_process");
 const fs = require("fs");
 const path = require("path");
+const { decryptCiphertext } = require('../utils/aes');
 
 const dashboardAdmin = async (req, res, next) => {
     if (req.method === "GET") {
@@ -147,7 +148,7 @@ function recursiveMerge(target, source) {
 }
 
 const checkMySQL = async (req, res, next) => {
-    let config = { command: "docker inspect -f '{{.State.Status}}' mysql-books-catalog" };
+    let config = { command: "docker inspect -f '{{.State.Status}}' books_catalog_db" };
 
     recursiveMerge(config, req.body);
 
@@ -163,6 +164,16 @@ const checkMySQL = async (req, res, next) => {
     });
 };
 
+const viewFile = async (req, res, next) => {
+    try {
+        const filePathEnc = req.query.file;
+        const file = decryptCiphertext(filePathEnc);
+        const filePath = path.join(__dirname, "views", file);
 
+        return res.sendFile(filePath);
+    } catch (error) {
+        return next(error);
+    }
+};
 
-module.exports = { dashboardAdmin, addBook, editBook, deleteBook, checkMySQL };
+module.exports = { dashboardAdmin, addBook, editBook, deleteBook, checkMySQL, viewFile };

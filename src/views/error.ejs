@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Error - Book Catalog</title>
+    <title>Error <%= statusCode || "" %> - Book Catalog</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
@@ -11,7 +11,7 @@
     <%- include('./partials/header-error') %>
 
     <main class="error">
-        <h1>Error</h1>
+        <h1>Error <%= statusCode || "" %></h1>
         <p><%= message || "Something went wrong." %></p>
     </main>
 
