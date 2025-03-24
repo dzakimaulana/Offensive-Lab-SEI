@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Book</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <%- include('../partials/header-after-login') %>
+
+    <!-- Main Content -->
+    <main class="container">
+        <h1>Add New Book</h1>
+
+        <!-- Display error messages if any -->
+        <% if (error) { %>
+            <p class="error-message"><%= error %></p>
+        <% } %>
+
+        <!-- Form to add a new book -->
+        <form action="/admin/books/add" method="POST" enctype="multipart/form-data" class="add-book-form" onsubmit="return validateForm()">
+            <!-- Title Field -->
+            <div class="form-group">
+                <label for="title">Title:</label>
+                <input 
+                    type="text" 
+                    id="title" 
+                    name="title" 
+                    required 
+                    placeholder="Enter the book title"
+                >
+            </div>
+
+            <!-- Author Field -->
+            <div class="form-group">
+                <label for="author">Author:</label>
+                <input 
+                    type="text" 
+                    id="author" 
+                    name="author" 
+                    required 
+                    placeholder="Enter the author's name"
+                >
+            </div>
+
+            <!-- Year Field -->
+            <div class="form-group">
+                <label for="year">Year:</label>
+                <input 
+                    type="number" 
+                    id="year" 
+                    name="year" 
+                    min="1000" 
+                    max="<%= new Date().getFullYear() %>" 
+                    required 
+                    placeholder="Enter the publication year"
+                >
+            </div>
+
+            <!-- Upload Image Field -->
+            <div class="form-group">
+                <label for="imageUpload">Upload Image:</label>
+                <input 
+                    type="file" 
+                    id="imageUpload" 
+                    name="imageUpload" 
+                    accept="image/*" 
+                    required
+                >
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-button">Add Book</button>
+
+            <!-- Error Message (Initially Hidden) -->
+            <p id="error-message" class="error-message" style="display: none;">All fields are required!</p>
+        </form>
+    </main>
+
+    <!-- Footer -->
+    <%- include('../partials/footer') %>
+
+    <!-- JavaScript for Form Validation -->
+    <script>
+        function validateForm() {
+            const title = document.getElementById('title').value.trim();
+            const author = document.getElementById('author').value.trim();
+            const year = document.getElementById('year').value.trim();
+            const imageUpload = document.getElementById('imageUpload');
+            const errorMessage = document.getElementById('error-message');
+
+            // Validate form fields
+            if (!title || !author || !year || !imageUpload.files.length) {
+                errorMessage.textContent = "All fields are required!";
+                errorMessage.style.display = "block";
+                return false;
+            }
+
+            // Validate year input (must be between 1000 and current year)
+            const currentYear = new Date().getFullYear();
+            if (year < 1000 || year > currentYear) {
+                errorMessage.textContent = `Year must be between 1000 and ${currentYear}.`;
+                errorMessage.style.display = "block";
+                return false;
+            }
+
+            // Hide error message if everything is valid
+            errorMessage.style.display = "none";
+            return true;
+        }
+    </script>
+</body>
+</html>

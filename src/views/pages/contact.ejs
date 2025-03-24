@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Book Catalog</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <%- include('../partials/header-before-login') %>
+
+    <!-- Main Content -->
+    <main class="centered-container">
+        <div class="contact-container">
+            <h1>Contact Us</h1>
+
+            <!-- Section: Contact Information -->
+            <section class="contact-info">
+                <h2><i class="fas fa-envelope-open-text"></i> Get in Touch</h2>
+                <p>
+                    If you have any questions, feedback, or suggestions, feel free to reach out to us. Our team is always happy to assist you!
+                </p>
+                <ul>
+                    <li><i class="fas fa-at"></i> Email: info@bookcatalog.com</li>
+                    <li><i class="fas fa-phone-alt"></i> Phone: +123 456 7890</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Address: 123 Book Lane, Reading City, BC 45678</li>
+                </ul>
+            </section>
+
+            <!-- Section: Contact Form -->
+            <section class="contact-form">
+                <h2><i class="fas fa-paper-plane"></i> Send Us a Message</h2>
+                <form action="#" method="POST" onsubmit="simulateMessageSent(event)">
+                    <div class="form-group">
+                        <label for="name"><i class="fas fa-user"></i> Name</label>
+                        <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message"><i class="fas fa-comment-dots"></i> Message</label>
+                        <textarea id="message" name="message" rows="5" placeholder="Write your message here..." required></textarea>
+                    </div>
+                    <button type="submit" class="submit-button">Send Message</button>
+                </form>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <%- include('../partials/footer') %>
+
+    <!-- JavaScript for Simulating Message Sent and Refresh -->
+    <script>
+        function simulateMessageSent(event) {
+            // Mencegah pengiriman formulir ke server
+            event.preventDefault();
+
+            // Me-refresh halaman secara otomatis
+            location.reload();
+        }
+    </script>
+</body>
+</html>

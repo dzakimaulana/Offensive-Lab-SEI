@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+
+    <%- include('../partials/header-after-login') %>
+
+    <main class="admin-dashboard">
+        <h1>Admin Dashboard</h1>
+        
+        <!-- Button Container -->
+        <div class="button-container">
+            <a href="/admin/books/add" class="add-button">Add New Book</a>
+    
+            <!-- Form to Check MySQL Status -->
+            <form action="/admin/check-mysql" method="POST" class="inline-form">
+                <button type="submit" class="mysql-check-button">Check MySQL Status</button>
+            </form>
+    
+            <!-- Button to Check Owner -->
+            <a href="/admin/view?file=wc6MzvBxeV1RRws1mD3%2BQkeMnab%2By%2B%2BC/ydaB0RcSdw%3D" class="owner-check-button">Check Owner</a>
+        </div>
+    
+        <!-- MySQL Status Section (Conditional Rendering) -->
+        <% if (mysqlStatus) { %>
+            <div id="mysql-status-container">
+                <h3>MySQL Server Status:</h3>
+                <pre id="mysql-status"><%= mysqlStatus %></pre>
+            </div>
+        <% } %>
+    
+        <% if (Array.isArray(books) && books.length > 0) { %>
+            <table class="book-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Author</th>
+                        <th>Year</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% books.forEach(book => { %>
+                        <tr class="book-item">
+                            <td><strong><%= book.title || 'Unknown Title' %></strong></td>
+                            <td><em><%= book.author || 'Unknown Author' %></em></td>
+                            <td><%= book.year || 'N/A' %></td>
+                            <td>
+                                <a href="/admin/books/<%= book.id %>/edit" class="edit-button">Edit</a>
+                                <form class="delete-form" action="/admin/books/<%= book.id %>/delete" method="POST">
+                                    <button type="submit" class="delete-button">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        <% } %>
+    </main>
+
+    <%- include('../partials/footer') %>
+
+</body>
+</html>

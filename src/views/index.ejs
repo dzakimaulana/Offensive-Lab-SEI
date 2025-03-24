@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Catalog</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+    <!-- Header -->
+    <%- include('partials/header-before-login') %>
+
+    <!-- Main Content -->
+    <main id="welcome-section">
+        <section class="welcome-section">
+            <h2>Welcome to the Book Catalog</h2>
+            <p>Explore our vast collection of books from various genres.</p>
+            <a href="/catalog" class="cta-button">Browse Catalog</a>
+        </section>
+
+        <!-- Testimonial Section -->
+        <section id="testimonials" class="testimonials">
+            <h2>What Our Readers Say</h2>
+            <div class="testimonial-container">
+                <% const testimonials = [
+                    { text: "This book catalog has an amazing collection! I found rare books I couldn't find anywhere else.", name: "Riswan Hermawan" },
+                    { text: "A fantastic platform for book lovers. The interface is easy to navigate, and the recommendations are great!", name: "Dzaki Maulana" },
+                    { text: "I love how organized everything is. The categories help me find exactly what I need in seconds!", name: "Arrizal Rizki" },
+                    { text: "An excellent resource for discovering new books. The reviews and summaries are incredibly helpful!", name: "Heaven Aulianisa" }
+                ]; %>
+
+                <% testimonials.forEach(testimonial => { %>
+                    <div class="testimonial">
+                        <p>"<%= testimonial.text %>"</p>
+                        <h4>- <%= testimonial.name %> -</h4>
+                    </div>
+                <% }); %>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <%- include('partials/footer') %>
+
+</body>
+</html>
