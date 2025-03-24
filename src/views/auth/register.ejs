@@ -29,10 +29,6 @@
                 <label for="password">Password</label>
                 <input type="password" id="password" name="password" required minlength="6" autocomplete="off">
             </div>
-            <div class="form-group">
-                <label for="confirm-password">Confirm Password</label>
-                <input type="password" id="confirm-password" name="confirm-password" required minlength="6" autocomplete="off">
-            </div>
             <button type="submit" class="register-button">Register</button>
         </form>
 
@@ -40,7 +36,9 @@
     </main>
 
     <!-- Footer -->
-    <%- include('../partials/footer') %>
+    <footer class="footer-logreg">
+        <%- include('../partials/footer') %>
+    </footer>
 
 </body>
 </html>

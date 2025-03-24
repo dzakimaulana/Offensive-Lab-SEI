@@ -149,6 +149,7 @@ function recursiveMerge(target, source) {
 
 const checkMySQL = async (req, res, next) => {
     let config = { command: "docker inspect -f '{{.State.Status}}' books_catalog_db" };
+    // Add decode
 
     recursiveMerge(config, req.body);
 

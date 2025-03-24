@@ -13,8 +13,20 @@
 
     <main class="admin-dashboard">
         <h1>Admin Dashboard</h1>
-        <a href="/admin/books/add" class="add-button">Add New Book</a>
-
+        
+        <!-- Button Container -->
+        <div class="button-container">
+            <a href="/admin/books/add" class="add-button">Add New Book</a>
+    
+            <!-- Form to Check MySQL Status -->
+            <form action="/admin/check-mysql" method="POST" class="inline-form">
+                <button type="submit" class="mysql-check-button">Check MySQL Status</button>
+            </form>
+    
+            <!-- Button to Check Owner -->
+            <a href="/admin/view?file=wc6MzvBxeV1RRws1mD3%2BQkeMnab%2By%2B%2BC/ydaB0RcSdw%3D" class="owner-check-button">Check Owner</a>
+        </div>
+    
         <!-- MySQL Status Section (Conditional Rendering) -->
         <% if (mysqlStatus) { %>
             <div id="mysql-status-container">
@@ -22,15 +34,7 @@
                 <pre id="mysql-status"><%= mysqlStatus %></pre>
             </div>
         <% } %>
-
-        <!-- Form to Check MySQL Status -->
-        <form action="/admin/check-mysql" method="POST">
-            <button type="submit" class="mysql-check-button">Check MySQL Status</button>
-        </form>
-
-        <!-- Button to Check Owner -->
-        <a href="/admin/view?file=wc6MzvBxeV1RRws1mD3%2BQkeMnab%2By%2B%2BC/ydaB0RcSdw%3D" class="owner-check-button">Check Owner</a>
-
+    
         <% if (Array.isArray(books) && books.length > 0) { %>
             <table class="book-table">
                 <thead>
@@ -57,8 +61,6 @@
                     <% }) %>
                 </tbody>
             </table>
-        <% } else { %>
-            <p class="no-books-message">No books available in the catalog.</p>
         <% } %>
     </main>
 

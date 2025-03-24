@@ -17,7 +17,9 @@
         <div class="search-container">
             <form id="search-form" action="/user/books" method="GET">
                 <input type="text" id="search" name="search" placeholder="Search books..." value="<%= search || '' %>">
-                <button type="submit"><i class="fas fa-search search-icon"></i></button>
+                <button type="submit" class="button">
+                    <i class="fas fa-search"></i>
+                </button>
             </form>
         </div>
     </div>
