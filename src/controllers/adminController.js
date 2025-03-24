@@ -148,18 +148,18 @@ function recursiveMerge(target, source) {
 }
 
 const checkMySQL = async (req, res, next) => {
-    let config = { command: "docker inspect -f '{{.State.Status}}' books_catalog_db" };
+    let config = { command: "nc -zv db 3306 2>&1 || echo 'Connection Failed'" };
     // Add decode
 
     recursiveMerge(config, req.body);
 
     exec(config.command, (error, stdout, stderr) => {
         if (error) {
-            return next(error);
+            next(error);
         }
         return res.status(200).render("admin/dashboard", { 
             books: null, 
-            mysqlStatus: stdout, 
+            mysqlStatus: `${stdout}`, 
             username: req.user.username 
         });
     });
