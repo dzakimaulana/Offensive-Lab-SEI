@@ -4,7 +4,7 @@
 This project sets up an offensive lab environment containing various vulnerabilities for security testing and learning.
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/dzakimaulana/Offensive-Lab-SEI.git
 2. Change to the project directory:
    ```bash
    cd Offensive-Lab-SEI
