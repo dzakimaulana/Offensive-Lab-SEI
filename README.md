@@ -23,4 +23,4 @@ This project sets up an offensive lab environment containing various vulnerabili
 
 ## Usage
 - Access the lab through the provided IP or hostname.
-- - Explore the vulnerable services and test your skills.
+- Explore the vulnerable services and test your skills.
