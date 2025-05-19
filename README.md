@@ -22,5 +22,5 @@ This project sets up an offensive lab environment containing various vulnerabili
 - Docker Compose installed.
 
 ## Usage
-- Access the lab through the provided IP or hostname.
+- Access the lab at ```http://localhost:3000```.
 - Explore the vulnerable services and test your skills.
